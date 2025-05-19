@@ -30,7 +30,6 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   className,
   ...props
 }, ref) => {
-  // useId provides a stable id across renders for accessibility
   const generatedId = useId();
   const inputId = id || generatedId;
 
@@ -72,9 +71,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
         <p
           className={classNames(
             'text-xs',
-            error
-              ? 'text-red-500'
-              : 'text-gray-500 dark:text-gray-400'
+            error ? 'text-red-500' : 'text-gray-500 dark:text-gray-400'
           )}
         >
           {helperText}

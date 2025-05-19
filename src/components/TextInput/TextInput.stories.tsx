@@ -1,47 +1,52 @@
-// src/components/TextInput/TextInput.stories.tsx
-
 import React from 'react';
 import { TextInput } from './TextInput';
-import { Typography } from '../Typography/Typography';  // Adjust path as needed
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof TextInput> = {
-  title: 'Form/TextInput',
+  title: 'Data Entry/TextInput',
   component: TextInput,
   argTypes: {
-    size: {
+    inputSize: {
       control: { type: 'radio' },
-      options: ['small', 'medium', 'large'],  // size as string union
+      options: ['sm', 'md', 'lg'],
+      description: 'Input size: sm = small, md = medium, lg = large',
+      table: {
+        type: { summary: "'sm' | 'md' | 'lg'" },
+        defaultValue: { summary: 'md' },
+      },
     },
-    disabled: {
-      control: 'boolean',
-    },
-    error: {
-      control: 'boolean',
-    },
-    placeholder: {
-      control: 'text',
-    },
-    value: {
-      control: 'text',
-    },
+    disabled: { control: 'boolean' },
+    error: { control: 'boolean' },
+    placeholder: { control: 'text' },
+    value: { control: 'text' },
     onChange: { action: 'changed' },
   },
   parameters: {
     docs: {
       description: {
         component: `
-# TextInput Component
+### Anatomy / Structure:
+- Input field wrapped with label
+- Optional error message displayed below input
+- Supports sizes small, medium, large via styling
 
-A text input field component supporting multiple sizes, disabled and error states.
+### Interaction Behavior:
+- Supports typing input with controlled \`value\` and \`onChange\`
+- Displays error state visually and with text
 
-## Accessibility Notes
+### Accessibility:
+- Uses semantic \`<input>\` with \`aria-invalid\` on error
+- Label properly associated with input via \`htmlFor\`
+- Supports keyboard navigation and focus states
 
-- Use \`label\` elements to associate inputs with descriptive text.
-- Use appropriate \`aria-invalid\` and \`aria-describedby\` for error messages.
-- Ensure color contrast meets WCAG AA standards.
-- Provide keyboard focus styles for usability.
+### Theming / Responsiveness:
+- Supports dark mode via Tailwind classes
+- Responsive input sizing
 
+### Best Practices:
+- Use descriptive placeholder and labels
+- Indicate errors clearly for validation
+- Choose size appropriate for context
         `,
       },
     },
@@ -55,51 +60,38 @@ type Story = StoryObj<typeof TextInput>;
 
 export const Playground: Story = {
   args: {
-    placeholder: 'Enter text',
-    size: 'medium',
+    inputSize: 'md',          // use inputSize, not size
+    placeholder: 'Enter text here',
     disabled: false,
     error: false,
     value: '',
   },
 };
 
-export const Disabled: Story = {
-  args: {
-    placeholder: 'Disabled input',
-    size: 'medium',
-    disabled: true,
-  },
-};
-
 export const ErrorState: Story = {
   args: {
+    inputSize: 'md',          // updated here too
     placeholder: 'Error input',
-    size: 'medium',
     error: true,
+    value: 'Invalid input',
   },
 };
 
-export const AllSizes: Story = {
-  render: () => (
-    <div className="space-y-4 p-4">
-      <TextInput placeholder="Small size" size="small" />
-      <TextInput placeholder="Medium size" size="medium" />
-      <TextInput placeholder="Large size" size="large" />
-    </div>
-  ),
+export const DisabledState: Story = {
+  args: {
+    inputSize: 'md',          // and here
+    placeholder: 'Disabled input',
+    disabled: true,
+    value: '',
+  },
 };
 
-export const BestPractices: Story = {
+export const Sizes: Story = {
   render: () => (
-    <div className="space-y-2 p-4">
-      <Typography variant="h2">Best Practices</Typography>
-      <ul className="list-disc pl-5 space-y-2 text-base">
-        <li>Always provide a clear label for inputs for accessibility.</li>
-        <li>Use placeholder text only as a hint, not as a label substitute.</li>
-        <li>Ensure sufficient color contrast for text and error states.</li>
-        <li>Do not disable inputs without clear reason; consider readonly if needed.</li>
-        <li>Use error states with ARIA attributes to notify assistive tech users.</li>
-      </ul>
+    <div className="space-y-4">
+      <TextInput inputSize="sm" placeholder="Small input" value="" onChange={() => {}} />
+      <TextInput inputSize="md" placeholder="Medium input" value="" onChange={() => {}} />
+      <TextInput inputSize="lg" placeholder="Large input" value="" onChange={() => {}} />
     </div>
   ),
 };
